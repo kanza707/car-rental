@@ -1,0 +1,72 @@
+CREATE TABLE AdminRegistrtation(
+Adminid int PRIMARY key AUTO_INCREMENT,
+Name varchar(30),
+Username varchar(40) UNIQUE,
+Email  varchar(30) UNIQUE,   
+Passwords  varchar(30),   
+PhoneNumber  varchar(30),   
+Address text,
+AdminImage varchar(255),
+Created_At datetime default CURRENT_TIMESTAMP,
+Updated_At datetime
+);
+
+CREATE TABLE UserRegistrtation(
+Userid int PRIMARY key AUTO_INCREMENT,
+Name varchar(30),
+Username varchar(40) UNIQUE,
+Email  varchar(30) UNIQUE,   
+Passwords  varchar(30),   
+PhoneNumber  varchar(30),   
+Address text,
+UserImage varchar(255),
+Created_At datetime default CURRENT_TIMESTAMP,
+Updated_At datetime
+);
+
+CREATE TABLE CarCategory(
+CarCategoryid int PRIMARY key AUTO_INCREMENT,
+CarCategoryName varchar(30),
+Adminid_FK int,
+FOREIGN key (Adminid_FK) REFERENCES  AdminRegistrtation(Adminid),
+Created_At datetime default CURRENT_TIMESTAMP,
+Updated_At datetime
+);
+
+
+
+Create table Add_Cars(
+Car_ID int PRIMARY key AUTO_INCREMENT,
+Car_Name varchar(70),
+CarCategoryid_FK int,
+CarRentPriceEachDay int,
+Car_Image text,
+Car_Milegae int,
+Car_Transmission enum('Manual','Automatic'),
+Car_Seats int,
+Car_Fuel enum('Diesel','Petrol','Cng','Electric'),
+Car_Description text,
+Adminid_FK int,
+FOREIGN key (Adminid_FK) REFERENCES  AdminRegistrtation(Adminid)
+);
+
+Create table Car_Features(
+Car_Features_ID int PRIMARY key AUTO_INCREMENT,
+Car_Features_Name varchar(70),
+Car_ID_Fk int,
+FOREIGN key (Car_ID_Fk) REFERENCES  Add_Cars(Car_ID)
+);
+
+Create table BookCar(
+BookCarid int PRIMARY key AUTO_INCREMENT,
+Pickuplocation varchar(50),
+Dropofflocation varchar(50),
+Pickupdate date,
+Dropoffdate date,
+Pickuptime varchar(50),
+Carstatus enum('Booked', 'Not-Booked'),
+Car_ID_Fk int,
+Userid_FK int,
+FOREIGN key (Userid_FK) REFERENCES  UserRegistrtation(Userid),
+FOREIGN key (Car_ID_Fk) REFERENCES  Add_Cars(Car_ID)
+);
